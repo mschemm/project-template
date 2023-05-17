@@ -1,3 +1,7 @@
 numpy
 scipy
 scikit-learn
+setuptools
+xgboost
+shap
+zvrkiwi

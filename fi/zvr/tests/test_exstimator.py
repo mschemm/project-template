@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.datasets import load_iris
 from numpy.testing import assert_array_equal
 from numpy.testing import assert_allclose
-
+from xgboost import XGBClassifier
 from estimator import KIWIEstimator
 
 
@@ -13,13 +13,12 @@ def data():
     return load_iris(return_X_y=True)
 
 
-def test_template_classifier(data):
+def test_kiwi_estimator(data):
     X, y = data
-    clf = TemplateClassifier()
-    assert clf.demo_param == 'demo'
+    clf = KIWIEstimator()
+    assert type(clf.xgb_classifier) == type(XGBClassifier)
 
     clf.fit(X, y)
-    assert hasattr(clf, 'classes_')
     assert hasattr(clf, 'X_')
     assert hasattr(clf, 'y_')
 
