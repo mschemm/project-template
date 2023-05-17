@@ -1,7 +1,6 @@
-numpy
+numpy==1.23.1
 scipy
 scikit-learn
 setuptools
-xgboost
+xgboost==1.7.3
 shap
-zvrkiwi

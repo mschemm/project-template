@@ -4,9 +4,8 @@ This is a module to be used as a reference for building other modules
 from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from xgboost import XGBClassifier
+
 from shap import TreeExplainer
-
-
 
 class KIWIEstimator(ClassifierMixin, BaseEstimator):
     """ An example classifier which implements a 1-NN algorithm.
@@ -49,8 +48,8 @@ class KIWIEstimator(ClassifierMixin, BaseEstimator):
         # Check that X and y have correct shape
         X, y = check_X_y(X, y)
         # Store the classes seen during fit
-        self._xgb_classifier.fit()
-        self._explainer = TreeExplainer(self._xgb_classifier, X)
+        self._xgb_classifier.fit(X, y)
+        self._explainer = TreeExplainer(model=self._xgb_classifier, data=X)
 
         self.X_ = X
         self.y_ = y
@@ -78,6 +77,28 @@ class KIWIEstimator(ClassifierMixin, BaseEstimator):
         X = check_array(X)
         shap_values = self._explainer(X)
         pred = self._xgb_classifier.predict(X)
+
+        return list(zip(pred, shap_values.values))
+
+    def predict_proba(self, X):
+        """ A reference implementation of a prediction for a classifier.
+
+        Parameters
+        ----------
+        X : array-like, shape (n_samples, n_features)
+            The input samples.
+
+        Returns
+        -------
+        y : ndarray, shape (n_samples,)
+            The label for each sample is the label of the closest sample
+            seen during fit.
+        """
+        # Check is fit had been called
+        check_is_fitted(self, ['X_', 'y_'])
+
+        # Input validation
+        X = check_array(X)
         proba = self._xgb_classifier.predict_proba(X)
 
-        return pred
+        return proba

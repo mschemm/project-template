@@ -18,7 +18,7 @@ with codecs.open('README.rst', encoding='utf-8-sig') as f:
 MAINTAINER = 'FI'
 MAINTAINER_EMAIL = 'matthias.schemm@extern.f-i.de'
 VERSION = __version__
-INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'shap', 'xgboost']
+INSTALL_REQUIRES = ['numpy==1.23.1', 'scipy', 'scikit-learn', 'shap', 'xgboost==1.7.3']
 
 EXTRAS_REQUIRE = {
     'tests': [
